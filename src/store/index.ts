@@ -5,7 +5,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    cipher: 'nothing',
+    input: '',
+    cipher: '',
   },
   mutations: {
     setCipher(state, payload) {

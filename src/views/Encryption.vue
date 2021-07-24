@@ -1,7 +1,7 @@
 <template>
   <div class="encryption-feature">
-    <encryption-boxes />
     <ciphers />
+    <encryption-boxes />
   </div>
 </template>
 

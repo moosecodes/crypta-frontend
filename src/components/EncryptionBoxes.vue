@@ -1,14 +1,12 @@
 <template>
   <div class="encryption-boxes">
-    <div></div>
     <div class="d-flex flex-column px-5">
       <b-form-textarea
         id="inputString"
         v-model="inputString"
-        placeholder="Enter string to encrypt here"
+        placeholder="Enter text to encrypt here"
         rows="5"
       />
-
       <b-form-textarea
         id="encryptedData"
         v-model="encryptedData"
@@ -16,8 +14,15 @@
         rows="15"
         :disabled="true"
       />
+      <b-button @click="submit('encrypt')" :disabled="!cipher">
+        <span v-if="!cipher">
+          Select a cipher
+        </span>
+        <span v-else>
+          Encrypt using <b>{{cipher}}</b>
+        </span>
+      </b-button>
     </div>
-    <b-button @click="submit('encrypt')">Submit</b-button>
   </div>
 </template>
 
@@ -29,6 +34,10 @@ import axios from 'axios';
 export default class EncryptionBoxes extends Vue {
   private inputString = '';
   private encryptedData = '';
+
+  private get cipher() {
+    return this.$store.state.cipher;
+  }
 
   private encryptString(text: string, cipher: string): void {
     axios
@@ -63,15 +72,8 @@ export default class EncryptionBoxes extends Vue {
     }
   }
 
-  private cipher() {
-    return this.$store.state.cipher;
-  }
-
   private created(): void {
-    console.log(this.cipher());
-    // let text = 'thisisthetext';
-    // let cipher = 'aes-128-cbc';
-    // this.encryptString(text, cipher);
+    console.log(this.cipher);
   }
 }
 </script>

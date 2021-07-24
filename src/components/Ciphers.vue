@@ -1,7 +1,7 @@
 <template>
   <div class="ciphers">
     <div class="mx-5">
-      <div v-if="selectedCipher.length == 0">Select a Cipher</div>
+      <div v-if="this.$store.state.cipher.length == 0">Select a Cipher</div>
       <div v-else>
         {{ this.$store.state.cipher }}
       </div>
@@ -73,11 +73,10 @@ export default class Ciphers extends Vue {
         }
         this.ciphers = response.data;
       })
-      .catch(function (error: string) {
-        // handle error
-        err = error;
-      });
+      .catch(function (error: string) { err = error; });
+    
     if (err) this.error = err;
+    
     return response;
   }
 }
