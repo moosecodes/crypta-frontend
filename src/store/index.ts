@@ -8,9 +8,9 @@ export default new Vuex.Store({
     cipher: 'nothing',
   },
   mutations: {
-    setCipher(state, payload){
+    setCipher(state, payload) {
       state.cipher = payload;
-    }
+    },
   },
   actions: {},
   modules: {},

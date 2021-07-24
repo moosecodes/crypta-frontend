@@ -1,19 +1,18 @@
 <template>
   <div class="encryption-boxes">
-    <div>
-    </div>
+    <div></div>
     <div class="d-flex flex-column px-5">
       <b-form-textarea
         id="inputString"
         v-model="inputString"
-        placeholder="Enter string to encrypt..."
+        placeholder="Enter string to encrypt here"
         rows="5"
       />
 
       <b-form-textarea
         id="encryptedData"
         v-model="encryptedData"
-        placeholder="Decrypted string will show here"
+        placeholder="Decrypted data will display here"
         rows="15"
         :disabled="true"
       />
@@ -33,9 +32,11 @@ export default class EncryptionBoxes extends Vue {
 
   private encryptString(text: string, cipher: string): void {
     axios
-      .get(`http://192.168.86.67/api/encryption/encrypt?text=${text}&cipher=${cipher}`)
+      .get(
+        `http://192.168.86.67/api/encryption/encrypt?text=${text}&cipher=${cipher}`
+      )
       .then((response) => {
-        this.encryptedData = JSON.stringify(response.data, null, 2 );
+        this.encryptedData = JSON.stringify(response.data, null, 2);
       })
       .catch(function (error) {
         console.log(error);
@@ -44,7 +45,9 @@ export default class EncryptionBoxes extends Vue {
 
   private decryptString(text: string, cipher: string): void {
     axios
-      .get(`http://192.168.86.67/api/encryption/decrypt?text=${text}&cipher=${cipher}`)
+      .get(
+        `http://192.168.86.67/api/encryption/decrypt?text=${text}&cipher=${cipher}`
+      )
       .then((response) => {
         console.log(response.data);
         this.inputString = response.data;
@@ -55,7 +58,7 @@ export default class EncryptionBoxes extends Vue {
   }
 
   private submit(mode: string) {
-    if(mode === 'encrypt' && this.inputString && this.$store.state.cipher){
+    if (mode === 'encrypt' && this.inputString && this.$store.state.cipher) {
       this.encryptString(this.inputString, this.$store.state.cipher);
     }
   }
@@ -68,7 +71,7 @@ export default class EncryptionBoxes extends Vue {
     console.log(this.cipher());
     // let text = 'thisisthetext';
     // let cipher = 'aes-128-cbc';
-    // this.encryptString(text, cipher);  
+    // this.encryptString(text, cipher);
   }
 }
 </script>

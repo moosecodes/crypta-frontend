@@ -6,14 +6,11 @@
         {{ this.$store.state.cipher }}
       </div>
     </div>
-    <!-- <div>
-      <p>{{ error ? error : 'Errors: none' }}</p>
-    </div> -->
     <div class="btn-group" role="group" aria-label="Cipher Categories">
-      <button 
-        v-for="(type, index) in types" 
-        :key="index" 
-        type="button" 
+      <button
+        v-for="(type, index) in types"
+        :key="index"
+        type="button"
         class="btn btn-secondary"
         @click="displayCategory(type)"
       >
@@ -26,12 +23,15 @@
           v-if="cipher.includes(currentType)"
           pill
           class="m-1"
-          :variant="(activeButton === index) ? 'success' : 'outline-secondary'"
+          :variant="activeButton === index ? 'success' : 'outline-secondary'"
           @click="selectCipher(cipher, index)"
         >
           {{ cipher }}
         </b-button>
       </div>
+    </div>
+    <div>
+      <p>{{ error ? error : 'Errors: none' }}</p>
     </div>
   </div>
 </template>
@@ -55,19 +55,19 @@ export default class Ciphers extends Vue {
     this.$store.commit('setCipher', this.selectedCipher);
   }
 
-  private displayCategory(type: string){
+  private displayCategory(type: string) {
     this.currentType = type;
   }
 
-  private async created(): Promise<AxiosPromise> {
+  private created(): Promise<AxiosPromise> {
     let err: null | string = null;
 
     let response: any = axios
       .get('http://192.168.86.67/api/encryption/list')
       .then((response) => {
-        for(let i = 0; i < response.data.length; i++){
+        for (let i = 0; i < response.data.length; i++) {
           let currentType = response.data[i].split('-')[0];
-          if(!this.types.includes(currentType)){
+          if (!this.types.includes(currentType)) {
             this.types.push(currentType);
           }
         }
