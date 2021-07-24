@@ -2,7 +2,7 @@
   <div class="encryption-boxes">
     <div>
     </div>
-    <div class="d-flex flex-column p-5">
+    <div class="d-flex flex-column px-5">
       <b-form-textarea
         id="inputString"
         v-model="inputString"

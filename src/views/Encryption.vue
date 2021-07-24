@@ -1,5 +1,5 @@
 <template>
-  <div class="encryption">
+  <div class="encryption-feature">
     <encryption-boxes />
     <ciphers />
   </div>

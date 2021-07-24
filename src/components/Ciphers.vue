@@ -1,25 +1,37 @@
 <template>
   <div class="ciphers">
-    <div class="mt-5 mb-5">
-      <h3 v-if="selectedCipher.length == 0">Select a Cipher</h3>
-      <h3 v-else>
+    <div class="mx-5">
+      <div v-if="selectedCipher.length == 0">Select a Cipher</div>
+      <div v-else>
         {{ this.$store.state.cipher }}
-      </h3>
+      </div>
     </div>
     <!-- <div>
       <p>{{ error ? error : 'Errors: none' }}</p>
     </div> -->
-    <div class="d-flex flex-wrap">
-      <b-button
-        pill
-        class="m-1"
-        v-for="(cipher, index) in ciphers"
-        :key="index"
-        :variant="(activeButton === index) ? 'success' : 'outline-secondary'"
-        @click="selectCipher(cipher, index)"
+    <div class="btn-group" role="group" aria-label="Cipher Categories">
+      <button 
+        v-for="(type, index) in types" 
+        :key="index" 
+        type="button" 
+        class="btn btn-secondary"
+        @click="displayCategory(type)"
       >
-        {{ cipher }}
-      </b-button>
+        {{ type }}
+      </button>
+    </div>
+    <div v-if="currentType" class="d-flex flex-wrap px-5">
+      <div v-for="(cipher, index) in ciphers" :key="index">
+        <b-button
+          v-if="cipher.includes(currentType)"
+          pill
+          class="m-1"
+          :variant="(activeButton === index) ? 'success' : 'outline-secondary'"
+          @click="selectCipher(cipher, index)"
+        >
+          {{ cipher }}
+        </b-button>
+      </div>
     </div>
   </div>
 </template>
@@ -34,11 +46,17 @@ export default class Ciphers extends Vue {
   private selectedCipher = '';
   private error = null;
   private activeButton = -1;
+  private types: string[] = [];
+  private currentType = '';
 
   private selectCipher(cipher: string, index: any) {
     this.activeButton = index;
     this.selectedCipher = cipher;
     this.$store.commit('setCipher', this.selectedCipher);
+  }
+
+  private displayCategory(type: string){
+    this.currentType = type;
   }
 
   private async created(): Promise<AxiosPromise> {
@@ -47,7 +65,12 @@ export default class Ciphers extends Vue {
     let response: any = axios
       .get('http://192.168.86.67/api/encryption/list')
       .then((response) => {
-        // handle success
+        for(let i = 0; i < response.data.length; i++){
+          let currentType = response.data[i].split('-')[0];
+          if(!this.types.includes(currentType)){
+            this.types.push(currentType);
+          }
+        }
         this.ciphers = response.data;
       })
       .catch(function (error: string) {
