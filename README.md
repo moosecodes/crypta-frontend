@@ -1,5 +1,7 @@
 # crypta-frontend
 
+Moose's Notes:
+Start the sails container on the raspberry pi itself not on localhost.
 ## Project setup
 ```
 npm install

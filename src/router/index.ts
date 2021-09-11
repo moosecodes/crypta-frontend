@@ -28,6 +28,15 @@ const routes: Array<RouteConfig> = [
     component: () =>
       import(/* webpackChunkName: "encryption" */ '../views/Encryption.vue'),
   },
+  {
+    path: '/chatbot',
+    name: 'ChatBot',
+    // route level code-splitting
+    // this generates a separate chunk (chatbot.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "chatbot" */ '../views/ChatBot.vue'),
+  },
 ];
 
 const router = new VueRouter({

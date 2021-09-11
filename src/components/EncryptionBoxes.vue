@@ -1,26 +1,31 @@
 <template>
   <div class="encryption-boxes">
-    <div class="d-flex flex-column px-5">
+    <div class="d-flex flex-column m-3">
       <b-form-textarea
         id="inputString"
         v-model="inputString"
         placeholder="Enter text to encrypt here"
         rows="5"
+        :disabled="!encryptMode"
       />
       <b-form-textarea
         id="encryptedData"
         v-model="encryptedData"
         placeholder="Decrypted data will display here"
         rows="15"
-        :disabled="true"
+        :disabled="encryptMode"
       />
-      <b-button @click="submit('encrypt')" :disabled="!cipher">
-        <span v-if="!cipher">
+      <b-button @click="submit('encrypt')" variant="success">
+        <!-- <span v-if="!cipher">
           Select a cipher
+        </span>
+        <span v-else-if="!inputString.length">
+          Enter input string
         </span>
         <span v-else>
           Encrypt using <b>{{cipher}}</b>
-        </span>
+        </span> -->
+        submit
       </b-button>
     </div>
   </div>
@@ -34,15 +39,16 @@ import axios from 'axios';
 export default class EncryptionBoxes extends Vue {
   private inputString = '';
   private encryptedData = '';
+  private encryptMode = true;
 
   private get cipher() {
     return this.$store.state.cipher;
   }
 
-  private encryptString(text: string, cipher: string): void {
+  private encryptString(): void {
     axios
       .get(
-        `http://192.168.86.67/api/encryption/encrypt?text=${text}&cipher=${cipher}`
+        `http://localhost/api/encryption/encrypt?text=${this.inputString}&cipher=${this.$store.state.cipher}`
       )
       .then((response) => {
         this.encryptedData = JSON.stringify(response.data, null, 2);
@@ -52,13 +58,12 @@ export default class EncryptionBoxes extends Vue {
       });
   }
 
-  private decryptString(text: string, cipher: string): void {
+  private decryptString(data: string): void {
     axios
-      .get(
-        `http://192.168.86.67/api/encryption/decrypt?text=${text}&cipher=${cipher}`
-      )
+      .post(`http://localhost/api/encryption/decrypt`, {
+        data,
+      })
       .then((response) => {
-        console.log(response.data);
         this.inputString = response.data;
       })
       .catch(function (error) {
@@ -66,9 +71,15 @@ export default class EncryptionBoxes extends Vue {
       });
   }
 
-  private submit(mode: string) {
-    if (mode === 'encrypt' && this.inputString && this.$store.state.cipher) {
-      this.encryptString(this.inputString, this.$store.state.cipher);
+  private submit() {
+    if (this.$store.state.cipher) {
+      if (this.encryptMode) {
+        console.log('encryptString');
+        this.encryptString();
+      } else {
+        console.log('decryptString');
+        this.decryptString(this.encryptedData);
+      }
     }
   }
 
