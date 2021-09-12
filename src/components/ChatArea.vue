@@ -1,21 +1,16 @@
 <template>
   <div class="chat-area">
     <h1>ChatArea</h1>
+    <h5>Press enter to send message</h5>
     <textarea
       v-model="message"
       name="message"
       id="main-message"
       cols="70"
       rows="2"
+      @keyup.enter="sendMessage"
     ></textarea>
-    <textarea
-      v-model="reply"
-      name="reply"
-      id="chat-reply"
-      cols="70"
-      rows="2"
-    />
-    <button @click="sendMessage">SEND</button>
+    <h3>{{ reply }}</h3>
   </div>
 </template>
 
@@ -30,16 +25,18 @@ export default class ChatArea extends Vue {
   private reply = '';
 
   protected sendMessage(): Promise<void> {
-    console.log(this.message);
     let response = axios
       .post('http://localhost/api/chatbot', {
-        message: 'Fred',
+        message: this.message,
       })
       .then((response) => {
         this.reply = response.data;
       })
       .catch(function (error: string) {
         console.log(error);
+      })
+      .finally(() => {
+        this.message = '';
       });
     return response;
   }
