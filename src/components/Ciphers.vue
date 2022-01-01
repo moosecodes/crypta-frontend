@@ -4,9 +4,29 @@
       <p>{{ error ? error : currentType }}</p>
     </div> -->
     <div class="card bg-light m-3">
+      <div class="card-header">
+        <h5>Select Cipher</h5>
+        <div class="mb-2">
+          <button
+            v-for="(type, index) in encryptionTypes"
+            :key="index"
+            type="button"
+            class="mx-1"
+            :class="
+              currentType == type
+                ? 'btn btn-success'
+                : 'btn btn-outline-secondary'
+            "
+            @click="displayCategory(type)"
+          >
+            {{ type }}
+          </button>
+        </div>
+      </div>
       <div class="card-body">
         <h5 class="card-title">
-          {{ currentType ? currentType.toUpperCase() : '---' }}
+          <span v-if="currentType">Select variation of</span>
+          {{ currentType ? currentType.toUpperCase() : "---" }}
         </h5>
         <div class="card-text">
           <div v-if="currentType" class="d-flex flex-wrap px-5">
@@ -26,43 +46,27 @@
           </div>
         </div>
       </div>
-      <div class="card-header">
-        <button
-          v-for="(type, index) in encryptionTypes"
-          :key="index"
-          type="button"
-          class="mx-1"
-          :class="
-            currentType == type
-              ? 'btn btn-success'
-              : 'btn btn-outline-secondary'
-          "
-          @click="displayCategory(type)"
-        >
-          {{ type }}
-        </button>
-      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import axios from 'axios';
+import { Component, Vue } from "vue-property-decorator";
+import axios from "axios";
 
 @Component
 export default class Ciphers extends Vue {
   private ciphers: string[] = [];
-  private selectedCipher = '';
+  private selectedCipher = "";
   private error = null;
   private activeButton = -1;
   private encryptionTypes: string[] = [];
-  private currentType = 'Select Cipher';
+  private currentType = "";
 
   private selectCipher(cipher: string, index: number) {
     this.activeButton = index;
     this.selectedCipher = cipher;
-    this.$store.commit('setCipher', this.selectedCipher);
+    this.$store.commit("setCipher", this.selectedCipher);
   }
 
   private displayCategory(type: string) {
@@ -73,11 +77,11 @@ export default class Ciphers extends Vue {
     let err: null | string = null;
 
     let response = axios
-      .get('http://localhost/api/encryption/list')
+      .get("http://192.168.86.106/api/encryption/list")
       .then((response) => {
         console.log(response);
         for (let i = 0; i < response.data.length; i++) {
-          let currentType = response.data[i].split('-')[0];
+          let currentType = response.data[i].split("-")[0];
           if (!this.encryptionTypes.includes(currentType)) {
             this.encryptionTypes.push(currentType);
           }

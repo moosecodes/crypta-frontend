@@ -26,7 +26,7 @@ export default class ChatArea extends Vue {
 
   protected sendMessage(): Promise<void> {
     let response = axios
-      .post('http://localhost/api/chatbot', {
+      .post('http://192.168.86.106/api/chatbot', {
         message: this.message,
       })
       .then((response) => {

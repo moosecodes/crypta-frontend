@@ -1,44 +1,48 @@
 <template>
   <div class="encryption-boxes">
     <div class="d-flex flex-column m-3">
+      <h4 class="align-self-start">Input:</h4>
       <b-form-textarea
         id="inputString"
         v-model="inputString"
         placeholder="Enter text to encrypt here"
-        rows="5"
+        rows="4"
+        maxlength="1000"
         :disabled="!encryptMode"
       />
+      <div class="align-self-end">{{ inputString.length }} / 1000</div>
+      <h4 class="align-self-start">Output:</h4>
       <b-form-textarea
         id="encryptedData"
+        class="mb-3"
         v-model="encryptedData"
-        placeholder="Decrypted data will display here"
+        placeholder="Encrypted data will display here"
         rows="15"
         :disabled="encryptMode"
       />
-      <b-button @click="submit('encrypt')" variant="success">
-        <!-- <span v-if="!cipher">
-          Select a cipher
-        </span>
-        <span v-else-if="!inputString.length">
-          Enter input string
-        </span>
+      <b-button
+        :disabled="!cipher || !inputString.length"
+        @click="submit('encrypt')"
+        variant="success"
+      >
+        <span v-if="!cipher"> Select a cipher </span>
+        <span v-else-if="!inputString.length"> Enter input string </span>
         <span v-else>
-          Encrypt using <b>{{cipher}}</b>
-        </span> -->
-        submit
+          Encrypt using <b>{{ cipher }}</b>
+        </span>
       </b-button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import axios from 'axios';
+import { Component, Vue } from "vue-property-decorator";
+import axios from "axios";
 
 @Component
 export default class EncryptionBoxes extends Vue {
-  private inputString = '';
-  private encryptedData = '';
+  private inputString = "";
+  private encryptedData = "";
   private encryptMode = true;
 
   private get cipher() {
@@ -48,7 +52,7 @@ export default class EncryptionBoxes extends Vue {
   private encryptString(): void {
     axios
       .get(
-        `http://localhost/api/encryption/encrypt?text=${this.inputString}&cipher=${this.$store.state.cipher}`
+        `http://192.168.86.106/api/encryption/encrypt?text=${this.inputString}&cipher=${this.$store.state.cipher}`
       )
       .then((response) => {
         this.encryptedData = JSON.stringify(response.data, null, 2);
@@ -60,7 +64,7 @@ export default class EncryptionBoxes extends Vue {
 
   private decryptString(data: string): void {
     axios
-      .post(`http://localhost/api/encryption/decrypt`, {
+      .post(`http://192.168.86.106/api/encryption/decrypt`, {
         data,
       })
       .then((response) => {
@@ -74,10 +78,10 @@ export default class EncryptionBoxes extends Vue {
   private submit() {
     if (this.$store.state.cipher) {
       if (this.encryptMode) {
-        console.log('encryptString');
+        console.log("encryptString");
         this.encryptString();
       } else {
-        console.log('decryptString');
+        console.log("decryptString");
         this.decryptString(this.encryptedData);
       }
     }
