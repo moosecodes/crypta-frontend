@@ -1,18 +1,18 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import axios from 'axios';
+import Vue from "vue";
+import Vuex from "vuex";
+import axios from "axios";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     list: [],
-    input: '',
-    cipher: '',
-    response: '',
+    input: "",
+    cipher: "",
+    response: "",
   },
   mutations: {
-    SET_CIPHERS_LIST(state, payload) {
+    SET_CIPHER_LIST(state, payload) {
       state.list = payload;
     },
     SET_INPUT(state, payload) {
@@ -33,22 +33,20 @@ export default new Vuex.Store({
           state.list = response.data;
         })
         .catch(function (error: string) {
-          // err = error;
+          console.log(error);
+          console.log("THERE WAS AN ERROR IN fetchList!!!");
         });
-      commit('SET_CIPHERS_LIST');
-      console.log('input');
+      commit("SET_CIPHER_LIST");
     },
     sendInput({ commit }, input) {
-      commit('SET_CIPHER', input);
-      console.log('input');
+      commit("SET_CIPHER", input);
+      console.log("sendInput");
     },
     setCipher({ commit }, cipher) {
-      commit('SET_CIPHER', cipher);
-      console.log('cipher');
+      commit("SET_CIPHER", cipher);
     },
     setResponse({ commit }, response) {
-      commit('SET_RESPONSE', response);
-      console.log('response');
+      commit("SET_RESPONSE", response);
     },
   },
   modules: {},

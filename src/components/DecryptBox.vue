@@ -4,7 +4,7 @@
     <b-form-textarea
       id="encryptedData"
       class="mb-3 border border-success"
-      v-model="encryptedData"
+      v-model="encryptedDataFromServer"
       placeholder="Encrypted data will display here"
       rows="15"
       disabled
@@ -13,11 +13,18 @@
 </template>
 
 <script lang="ts">
-import { Prop, Component, Vue } from 'vue-property-decorator';
+import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class DecryptBox extends Vue {
-  @Prop({ type: String }) encryptedData!: string;
+  public encryptedData!: any;
+
+  public get encryptedDataFromServer() {
+    if (this.$store.state.response) {
+      this.encryptedData = this.$store.state.response;
+    }
+    return this.encryptedData;
+  }
 }
 </script>
 

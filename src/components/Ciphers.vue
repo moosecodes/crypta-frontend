@@ -1,45 +1,46 @@
 <template>
   <div class="ciphers">
-    <h5>Select Cipher</h5>
+    <h5>Select a Cipher</h5>
+    <div>{{ chosenCipher }}</div>
     <div class="d-flex flex-column card bg-light m-3">
       <div class="d-flex flex-wrap card-header mb-2">
         <button
-          v-for="(type, index) in encryptionTypes"
+          v-for="(algo, index) in algorithms"
           :key="index"
           type="button"
           class="align-self-start m-2"
           :class="
-            currentType == type
+            chosenCipher == algo
               ? 'btn btn-success'
               : 'btn btn-outline-secondary'
           "
-          @click="currentType = type"
+          @click="chosenCipher = algo"
         >
-          <b>{{ type }}</b>
+          <b>{{ algo }}</b>
         </button>
       </div>
       <div class="card-body">
-        <h5 v-if="currentType" class="mb-3 card-title">
-          Select variation of
-          <b> {{ currentType ? currentType.toUpperCase() : '---' }}</b>
+        <h5 v-if="chosenCipher" class="mb-3 card-title">
+          Select key size and/or mode of
+          <b> {{ chosenCipher ? chosenCipher.toUpperCase() : '---' }}</b>
         </h5>
         <div class="card-text">
-          <div v-if="currentType" class="d-flex flex-wrap">
+          <div v-if="chosenCipher" class="d-flex flex-wrap">
             <div
-              v-for="(cipher, index) in ciphers"
+              v-for="(mode, index) in modes"
               :key="index"
               class="align-self-start"
             >
               <b-button
-                v-if="cipher.includes(currentType)"
+                v-if="mode.includes(chosenCipher)"
                 pill
                 class="m-1"
                 :variant="
                   activeButton === index ? 'success' : 'outline-secondary'
                 "
-                @click="selectCipher(cipher, index)"
+                @click="selectCipher(mode, index)"
               >
-                {{ cipher }}
+                {{ mode }}
               </b-button>
             </div>
           </div>
@@ -54,35 +55,40 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Ciphers extends Vue {
-  public ciphers: string[] = [];
-  public selectedCipher = '';
+  public modes: string[] = [];
+  public chosenCipher = '';
   public activeButton = -1;
-  public encryptionTypes: string[] = [];
-  public currentType = '';
+  public types: string[] = [];
+  public chosenType = '';
 
   public selectCipher(cipher: string, index: number) {
     this.activeButton = index;
-    this.selectedCipher = cipher;
+    this.chosenCipher = cipher;
     this.$store.dispatch('setCipher', cipher);
   }
 
-  public setTypes() {
-    const list = this.$store.state.list;
-
-    for (let i = 0; i < list.length; i++) {
-      let currentType = list[i].split('-')[0];
-      if (!this.encryptionTypes.includes(currentType)) {
-        this.encryptionTypes.push(currentType);
-      }
+  public get algorithms() {
+    if (this.$store.state.list) {
+      this.modes = this.$store.state.list;
+      this.getModes();
     }
 
-    return this.encryptionTypes;
+    return this.types;
+  }
+
+  private getModes() {
+    if (this.modes) {
+      for (let i = 0; i < this.modes.length; i++) {
+        let currentType = this.modes[i].split('-')[0];
+        if (!this.types.includes(currentType)) {
+          this.types.push(currentType);
+        }
+      }
+    }
   }
 
   public created() {
-    this.$store.dispatch('fetchList').then((response) => {
-      this.setTypes();
-    });
+    this.$store.dispatch('fetchList');
   }
 }
 </script>

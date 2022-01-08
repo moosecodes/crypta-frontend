@@ -1,6 +1,5 @@
 <template>
   <div class="d-flex flex-column mb-3 encrypt-box">
-    <div>{{ $store.state }}</div>
     <h5 class="align-self-start">Input</h5>
     <b-form-textarea
       id="plainText"

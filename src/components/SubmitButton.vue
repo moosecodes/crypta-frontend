@@ -5,26 +5,26 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import axios from 'axios';
-import { mapGetters } from 'vuex';
+import { Component, Vue } from "vue-property-decorator";
+import axios from "axios";
 
 @Component
 export default class SubmitButton extends Vue {
-  public plainText = '';
-  public encryptedData = '';
+  public plainText = "";
+  public encryptedData = "";
 
   public submit() {
-    if (this.$store.state.cipher && this.$store.state.input) {
+    if (this.$store.state.cipher && this.input) {
       this.encryptString();
     }
   }
 
-  public get cipher() {
-    return this.$store.state.cipher;
-  }
-  public get input() {
-    return this.$store.state.input;
+  private get input() {
+    if (this.$store.state.input) {
+      this.plainText = this.$store.state.input;
+    }
+
+    return this.plainText;
   }
 
   private encryptString(): void {
@@ -34,7 +34,7 @@ export default class SubmitButton extends Vue {
       )
       .then((response) => {
         this.encryptedData = JSON.stringify(response.data, null, 2);
-        this.$store.dispatch('setResponse', this.encryptedData);
+        this.$store.dispatch("setResponse", this.encryptedData);
       })
       .catch(function (error) {
         console.log(error);
