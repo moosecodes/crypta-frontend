@@ -1,36 +1,35 @@
 <template>
   <div class="ciphers">
-    <!-- <div>
-      <p>{{ error ? error : currentType }}</p>
-    </div> -->
-    <div class="card bg-light m-3">
-      <div class="card-header">
-        <h5>Select Cipher</h5>
-        <div class="mb-2">
-          <button
-            v-for="(type, index) in encryptionTypes"
-            :key="index"
-            type="button"
-            class="mx-1"
-            :class="
-              currentType == type
-                ? 'btn btn-success'
-                : 'btn btn-outline-secondary'
-            "
-            @click="displayCategory(type)"
-          >
-            {{ type }}
-          </button>
-        </div>
+    <h5>Select Cipher</h5>
+    <div class="d-flex flex-column card bg-light m-3">
+      <div class="d-flex flex-wrap card-header mb-2">
+        <button
+          v-for="(type, index) in encryptionTypes"
+          :key="index"
+          type="button"
+          class="align-self-start m-2"
+          :class="
+            currentType == type
+              ? 'btn btn-success'
+              : 'btn btn-outline-secondary'
+          "
+          @click="currentType = type"
+        >
+          <b>{{ type }}</b>
+        </button>
       </div>
       <div class="card-body">
-        <h5 class="card-title">
-          <span v-if="currentType">Select variation of</span>
-          {{ currentType ? currentType.toUpperCase() : "---" }}
+        <h5 v-if="currentType" class="mb-3 card-title">
+          Select variation of
+          <b> {{ currentType ? currentType.toUpperCase() : '---' }}</b>
         </h5>
         <div class="card-text">
-          <div v-if="currentType" class="d-flex flex-wrap px-5">
-            <div v-for="(cipher, index) in ciphers" :key="index">
+          <div v-if="currentType" class="d-flex flex-wrap">
+            <div
+              v-for="(cipher, index) in ciphers"
+              :key="index"
+              class="align-self-start"
+            >
               <b-button
                 v-if="cipher.includes(currentType)"
                 pill
@@ -51,50 +50,39 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import axios from "axios";
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Ciphers extends Vue {
-  private ciphers: string[] = [];
-  private selectedCipher = "";
-  private error = null;
-  private activeButton = -1;
-  private encryptionTypes: string[] = [];
-  private currentType = "";
+  public ciphers: string[] = [];
+  public selectedCipher = '';
+  public activeButton = -1;
+  public encryptionTypes: string[] = [];
+  public currentType = '';
 
-  private selectCipher(cipher: string, index: number) {
+  public selectCipher(cipher: string, index: number) {
     this.activeButton = index;
     this.selectedCipher = cipher;
-    this.$store.commit("setCipher", this.selectedCipher);
+    this.$store.dispatch('setCipher', cipher);
   }
 
-  private displayCategory(type: string) {
-    this.currentType = type;
+  public setTypes() {
+    const list = this.$store.state.list;
+
+    for (let i = 0; i < list.length; i++) {
+      let currentType = list[i].split('-')[0];
+      if (!this.encryptionTypes.includes(currentType)) {
+        this.encryptionTypes.push(currentType);
+      }
+    }
+
+    return this.encryptionTypes;
   }
 
-  private created(): Promise<void> {
-    let err: null | string = null;
-
-    let response = axios
-      .get("http://192.168.86.106/api/encryption/list")
-      .then((response) => {
-        console.log(response);
-        for (let i = 0; i < response.data.length; i++) {
-          let currentType = response.data[i].split("-")[0];
-          if (!this.encryptionTypes.includes(currentType)) {
-            this.encryptionTypes.push(currentType);
-          }
-        }
-        this.ciphers = response.data;
-      })
-      .catch(function (error: string) {
-        err = error;
-      });
-
-    if (err) this.error = err;
-
-    return response;
+  public created() {
+    this.$store.dispatch('fetchList').then((response) => {
+      this.setTypes();
+    });
   }
 }
 </script>
