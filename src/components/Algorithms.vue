@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Watch, Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Algorithms extends Vue {
@@ -31,19 +31,22 @@ export default class Algorithms extends Vue {
   }
 
   public get cipher() {
-    let cipher = "";
-    if (this.$store.state.cipher) {
-      cipher = this.$store.state.cipher;
-    }
-    return cipher;
+    return this.$store.state.cipher;
   }
 
   public get modes() {
-    let modes = [];
-    if (this.$store.state.list) {
-      modes = this.$store.state.list;
+    return this.$store.state.list;
+  }
+
+  public get storeAlgorithmValue() {
+    return this.$store.state.algorithm;
+  }
+
+  @Watch("storeAlgorithmValue")
+  onAlgorithmReset(value: string) {
+    if (value.length === 0) {
+      this.activeButton = -1;
     }
-    return modes;
   }
 }
 </script>

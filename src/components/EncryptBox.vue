@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Watch, Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class EncryptBox extends Vue {
@@ -38,8 +38,8 @@ export default class EncryptBox extends Vue {
   }
 
   @Watch("storeInputValue")
-  onInputReset(value: string, oldValue: string) {
-    if (this.storeInputValue.length === 0) {
+  onInputReset(value: string) {
+    if (value.length === 0) {
       this.plainText = "";
     }
   }

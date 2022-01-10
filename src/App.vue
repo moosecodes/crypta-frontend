@@ -18,7 +18,6 @@
 }
 
 #nav {
-  text-align: right;
   padding-bottom: 30px;
   padding-top: 30px;
 

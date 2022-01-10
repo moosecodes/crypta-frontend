@@ -2,11 +2,10 @@
   <div class="d-flex flex-column decrypt-box">
     <h5 class="align-self-start">Output</h5>
     <b-form-textarea
-      id="encryptedData"
       class="border border-success"
-      v-model="dataFromServer"
+      v-model="response"
       placeholder="Encrypted data will display here"
-      rows="15"
+      rows="7"
       disabled
     />
   </div>
@@ -17,13 +16,13 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class DecryptBox extends Vue {
-  public encryptedData!: any;
+  public data!: any;
 
-  public get dataFromServer() {
+  public get response() {
     if (this.$store.state.response) {
-      this.encryptedData = this.$store.state.response;
+      return this.$store.state.response;
     }
-    return this.encryptedData;
+    return "";
   }
 }
 </script>
