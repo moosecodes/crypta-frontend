@@ -1,18 +1,16 @@
 <template>
   <div>
-    <h5>Select Cipher</h5>
-    <div class="d-flex flex-wrap card">
-      <div class="card-body">
-        <b-button
-          v-for="(type, index) in ciphers"
-          class="m-1"
-          :key="index"
-          :variant="cipher == type ? 'success' : 'outline-secondary'"
-          @click="setCipher(type)"
-        >
-          <b>{{ type.toUpperCase() }}</b>
-        </b-button>
-      </div>
+    <h5>Cipher</h5>
+    <div class="d-flex flex-column">
+      <b-button
+        v-for="(type, index) in ciphers"
+        class="my-1"
+        :key="index"
+        :variant="cipher == type ? 'warning' : 'outline-secondary'"
+        @click="setCipher(type)"
+      >
+        <b>{{ type.toUpperCase() }}</b>
+      </b-button>
     </div>
   </div>
 </template>

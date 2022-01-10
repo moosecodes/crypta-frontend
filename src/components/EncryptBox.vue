@@ -1,13 +1,14 @@
 <template>
-  <div class="d-flex flex-column encrypt-box">
-    <h5 class="align-self-start">Input</h5>
+  <div v-if="$store.state.appMode === 'encrypt'" class="d-flex flex-column">
+    <h5 class="align-self-start">Enter Text</h5>
     <b-form-textarea
       id="plainText"
       v-model="plainText"
-      rows="12"
+      rows="15"
       :maxlength="limit"
       :placeholder="placeholder"
       @keyup="updateStore()"
+      :disabled="$store.state.appMode === 'decrypt'"
     />
     <div class="align-self-end">{{ charLimit }}</div>
   </div>
@@ -26,7 +27,7 @@ export default class EncryptBox extends Vue {
   }
 
   public get placeholder() {
-    return `Enter text to encrypt here (${this.limit} character limit)`;
+    return `${this.limit} character limit`;
   }
 
   public get charLimit() {

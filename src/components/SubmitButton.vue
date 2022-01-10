@@ -7,35 +7,45 @@
     :disabled="disabled"
     @click="submit()"
   >
-    <b>ENCRYPT</b>
+    <b>{{ $store.state.appMode.toUpperCase() }}</b>
   </b-button>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import axios from "axios";
 
 @Component
 export default class SubmitButton extends Vue {
   public plainText = "";
+  public cipherText = "";
   public encryptedData = "";
 
   public submit() {
     if (this.$store.state.cipher && this.input) {
-      this.encryptString();
+      if (this.$store.state.appMode === "encrypt") {
+        this.encryptString();
+      } else {
+        this.decryptString();
+      }
     }
   }
 
-  public get disabled() {
+  public get disabled(): boolean {
     const disabled = !this.$store.state.input || !this.$store.state.algorithm;
     return disabled;
   }
 
-  private get input() {
+  public get cipher(): string {
+    if (this.$store.state.input) {
+      this.cipherText = this.$store.state.input;
+    }
+    return this.cipherText;
+  }
+
+  private get input(): string {
     if (this.$store.state.input) {
       this.plainText = this.$store.state.input;
     }
-
     return this.plainText;
   }
 
@@ -43,17 +53,8 @@ export default class SubmitButton extends Vue {
     this.$store.dispatch("sendInput");
   }
 
-  private decryptString(data: string): void {
-    axios
-      .post(`http://${process.env.VUE_APP_DOMAIN}/api/encryption/decrypt`, {
-        data,
-      })
-      .then((response) => {
-        this.plainText = response.data;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  private decryptString(): void {
+    this.$store.dispatch("decryptInput");
   }
 }
 </script>

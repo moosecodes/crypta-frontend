@@ -10,13 +10,23 @@ export default new Vuex.Store({
   state: {
     list: [],
     input: "",
+    output: "",
     cipher: "",
     algorithm: "",
     response: "",
+    appMode: "encrypt",
   },
   mutations: {
+    CHANGE_APP_MODE(state) {
+      if (state.appMode === "encrypt") {
+        state.appMode = "decrypt";
+      } else {
+        state.appMode = "encrypt";
+      }
+    },
     RESET_STORE(state) {
       state.input = "";
+      state.output = "";
       state.cipher = "";
       state.algorithm = "";
       state.response = "";
@@ -34,10 +44,18 @@ export default new Vuex.Store({
       state.algorithm = payload;
     },
     SET_RESPONSE(state, payload) {
+      if (state.appMode === "encrypt") {
+        state.output = payload;
+      } else {
+        state.input === payload;
+      }
       state.response = payload;
     },
   },
   actions: {
+    changeAppMode({ commit }) {
+      commit("CHANGE_APP_MODE");
+    },
     resetStore({ commit }, payload) {
       if (payload) {
         commit("RESET_STORE");
@@ -61,6 +79,21 @@ export default new Vuex.Store({
         })
         .then((response) => {
           dispatch("setResponse", response);
+          dispatch("changeAppMode");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    decryptInput({ state, dispatch }) {
+      const data = JSON.stringify(state.output);
+      axios
+        .post(`http://${process.env.VUE_APP_DOMAIN}/api/encryption/decrypt`, {
+          data,
+        })
+        .then((response) => {
+          dispatch("setResponse", response);
+          dispatch("changeAppMode");
         })
         .catch(function (error) {
           console.log(error);

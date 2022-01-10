@@ -1,28 +1,26 @@
 <template>
   <div>
-    <Buttons />
+    <Controls />
     <EncryptBox />
-    <Ciphers />
-    <Algorithms />
     <DecryptBox />
+    <EncryptionSchemeSelector />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Algorithms from "@/components/Algorithms.vue";
-import Ciphers from "@/components/Ciphers.vue";
+
 import EncryptBox from "@/components/EncryptBox.vue";
 import DecryptBox from "@/components/DecryptBox.vue";
-import Buttons from "@/components/Buttons.vue";
+import Controls from "@/components/Controls.vue";
+import EncryptionSchemeSelector from "@/components/EncryptionSchemeSelector.vue";
 
 @Component({
   components: {
-    Buttons,
-    Algorithms,
-    Ciphers,
+    Controls,
     EncryptBox,
     DecryptBox,
+    EncryptionSchemeSelector,
   },
 })
 export default class Encryption extends Vue {}

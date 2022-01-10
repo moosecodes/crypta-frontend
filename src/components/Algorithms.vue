@@ -1,18 +1,17 @@
 <template>
-  <div v-if="cipher">
-    <h5>Select Algorithm</h5>
-    <div class="card">
-      <div class="d-flex flex-wrap card-body">
-        <div v-for="(mode, index) in modes" :key="index">
-          <b-button
-            v-if="mode.includes(cipher)"
-            class="m-1"
-            :variant="activeButton === index ? 'success' : 'outline-secondary'"
-            @click="setAlgorithm(mode, index)"
-          >
-            <b>{{ mode }}</b>
-          </b-button>
-        </div>
+  <div v-if="cipher" class="px-4">
+    <h5>Algorithm</h5>
+    <div class="d-flex flex-wrap justify-content-start">
+      <div v-for="(mode, index) in modes" :key="index">
+        <b-button
+          v-if="mode.includes(cipher)"
+          class="m-1"
+          :variant="variant(activeButton, index, mode, cipher)"
+          :disabled="disabled(mode, cipher)"
+          @click="setAlgorithm(mode, index)"
+        >
+          <b>{{ mode.toUpperCase() }}</b>
+        </b-button>
       </div>
     </div>
   </div>
@@ -28,6 +27,25 @@ export default class Algorithms extends Vue {
   public setAlgorithm(algorithm: string, index: number) {
     this.activeButton = index;
     this.$store.dispatch("setAlgorithm", algorithm);
+  }
+
+  public variant(
+    activeButton: number,
+    index: number,
+    mode: string,
+    cipher: string
+  ) {
+    let variant = "success";
+    if (this.disabled(mode, cipher)) {
+      return "";
+    } else if (activeButton === index) {
+      return variant;
+    }
+    return "outline-secondary";
+  }
+
+  public disabled(mode: string, cipher: string) {
+    return !mode.split("-")[0].includes(cipher);
   }
 
   public get cipher() {

@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <div id="nav" class="container">
-      <router-link to="/">Encrypter (OpenSSL)</router-link>
+      <b-button variant="outline" disabled><b>OpenSSL</b></b-button> |
+      <router-link to="/">Encrypter</router-link>
+      |
+      <router-link to="/decrypter">Decrypter</router-link>
     </div>
     <div class="container">
       <router-view />
