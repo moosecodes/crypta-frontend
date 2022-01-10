@@ -54,11 +54,11 @@ export default new Vuex.Store({
         });
     },
     sendInput({ state, dispatch }) {
-      const params = `cipher=${state.algorithm}&text=${state.input}`;
-      const url = `http://${domain}/api/encryption/encrypt?${params}`;
-
       axios
-        .get(url)
+        .post(`http://${domain}/api/encryption/encrypt`, {
+          cipher: state.algorithm,
+          text: state.input,
+        })
         .then((response) => {
           dispatch("setResponse", response);
         })
