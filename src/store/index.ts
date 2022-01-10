@@ -4,11 +4,14 @@ import axios from "axios";
 
 Vue.use(Vuex);
 
+const domain = process.env.VUE_APP_DOMAIN;
+
 export default new Vuex.Store({
   state: {
     list: [],
     input: "",
     cipher: "",
+    algorithm: "",
     response: "",
   },
   mutations: {
@@ -21,32 +24,46 @@ export default new Vuex.Store({
     SET_CIPHER(state, payload) {
       state.cipher = payload;
     },
+    SET_ALGORITHM(state, payload) {
+      state.algorithm = payload;
+    },
     SET_RESPONSE(state, payload) {
       state.response = payload;
     },
   },
   actions: {
-    fetchList({ commit, state }) {
+    fetchAlgorithms({ commit }) {
       axios
-        .get(`http://${process.env.VUE_APP_DOMAIN}/api/encryption/list`)
+        .get(`http://${domain}/api/encryption/list`)
         .then((response) => {
-          state.list = response.data;
+          commit("SET_CIPHER_LIST", response.data);
         })
         .catch(function (error: string) {
           console.log(error);
-          console.log("THERE WAS AN ERROR IN fetchList!!!");
         });
-      commit("SET_CIPHER_LIST");
     },
-    sendInput({ commit }, input) {
-      commit("SET_CIPHER", input);
-      console.log("sendInput");
+    sendInput({ state, dispatch }) {
+      const params = `cipher=${state.algorithm}&text=${state.input}`;
+      const url = `http://${domain}/api/encryption/encrypt?${params}`;
+
+      axios
+        .get(url)
+        .then((response) => {
+          dispatch("setResponse", response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+    setAlgorithm({ commit }, algorithm) {
+      commit("SET_ALGORITHM", algorithm);
     },
     setCipher({ commit }, cipher) {
       commit("SET_CIPHER", cipher);
     },
     setResponse({ commit }, response) {
-      commit("SET_RESPONSE", response);
+      const data = JSON.stringify(response.data, null, 2);
+      commit("SET_RESPONSE", data);
     },
   },
   modules: {},

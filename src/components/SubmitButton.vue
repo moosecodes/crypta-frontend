@@ -1,6 +1,14 @@
 <template>
-  <div class="submit-button">
-    <b-button @click="submit()" variant="success"> Encrypt </b-button>
+  <div class="submit-button d-flex justify-content-end">
+    <b-button
+      squared
+      size="lg"
+      :variant="disabled ? 'outline-secondary' : 'success'"
+      :disabled="disabled"
+      @click="submit()"
+    >
+      <b>ENCRYPT</b>
+    </b-button>
   </div>
 </template>
 
@@ -19,6 +27,13 @@ export default class SubmitButton extends Vue {
     }
   }
 
+  public get disabled() {
+    const disabled = !this.$store.state.input || !this.$store.state.algorithm;
+    console.log(disabled);
+
+    return disabled;
+  }
+
   private get input() {
     if (this.$store.state.input) {
       this.plainText = this.$store.state.input;
@@ -28,17 +43,7 @@ export default class SubmitButton extends Vue {
   }
 
   private encryptString(): void {
-    axios
-      .get(
-        `http://${process.env.VUE_APP_DOMAIN}/api/encryption/encrypt?text=${this.plainText}&cipher=${this.$store.state.cipher}`
-      )
-      .then((response) => {
-        this.encryptedData = JSON.stringify(response.data, null, 2);
-        this.$store.dispatch("setResponse", this.encryptedData);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    this.$store.dispatch("sendInput");
   }
 
   private decryptString(data: string): void {
@@ -55,5 +60,3 @@ export default class SubmitButton extends Vue {
   }
 }
 </script>
-
-<style scoped lang="scss"></style>
