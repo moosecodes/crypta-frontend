@@ -1,15 +1,14 @@
 <template>
-  <div class="submit-button d-flex justify-content-end">
-    <b-button
-      squared
-      size="lg"
-      :variant="disabled ? 'outline-secondary' : 'success'"
-      :disabled="disabled"
-      @click="submit()"
-    >
-      <b>ENCRYPT</b>
-    </b-button>
-  </div>
+  <b-button
+    squared
+    size="lg"
+    class="submit-button d-flex justify-content-end"
+    :variant="disabled ? 'outline-secondary' : 'success'"
+    :disabled="disabled"
+    @click="submit()"
+  >
+    <b>ENCRYPT</b>
+  </b-button>
 </template>
 
 <script lang="ts">
@@ -29,8 +28,6 @@ export default class SubmitButton extends Vue {
 
   public get disabled() {
     const disabled = !this.$store.state.input || !this.$store.state.algorithm;
-    console.log(disabled);
-
     return disabled;
   }
 

@@ -5,8 +5,8 @@
       <div class="card-body">
         <b-button
           v-for="(type, index) in ciphers"
-          :key="index"
           class="m-1"
+          :key="index"
           :variant="cipher == type ? 'success' : 'outline-secondary'"
           @click="setCipher(type)"
         >

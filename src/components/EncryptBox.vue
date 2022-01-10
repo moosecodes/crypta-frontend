@@ -9,12 +9,12 @@
       :placeholder="placeholder"
       @keyup="updateStore()"
     />
-    <div class="align-self-end">{{ plainText.length }} / {{ limit }}</div>
+    <div class="align-self-end">{{ charLimit }}</div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component
 export default class EncryptBox extends Vue {
@@ -27,6 +27,21 @@ export default class EncryptBox extends Vue {
 
   public get placeholder() {
     return `Enter text to encrypt here (${this.limit} character limit)`;
+  }
+
+  public get charLimit() {
+    return `${this.plainText.length} / ${this.limit}`;
+  }
+
+  public get storeInputValue() {
+    return this.$store.state.input;
+  }
+
+  @Watch("storeInputValue")
+  onInputReset(value: string, oldValue: string) {
+    if (this.storeInputValue.length === 0) {
+      this.plainText = "";
+    }
   }
 }
 </script>

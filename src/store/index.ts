@@ -15,6 +15,12 @@ export default new Vuex.Store({
     response: "",
   },
   mutations: {
+    RESET_STORE(state) {
+      state.input = "";
+      state.cipher = "";
+      state.algorithm = "";
+      state.response = "";
+    },
     SET_CIPHER_LIST(state, payload) {
       state.list = payload;
     },
@@ -32,6 +38,11 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    resetStore({ commit }, payload) {
+      if (payload) {
+        commit("RESET_STORE");
+      }
+    },
     fetchAlgorithms({ commit }) {
       axios
         .get(`http://${domain}/api/encryption/list`)
