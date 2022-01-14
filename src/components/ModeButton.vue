@@ -2,7 +2,7 @@
   <b-button
     squared
     size="lg"
-    class="mx-3 reset-button"
+    class="mx-3"
     variant="outline-secondary"
     @click="changeAppMode()"
   >
@@ -15,7 +15,7 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class ModeButton extends Vue {
-  public changeAppMode() {
+  public changeAppMode(): void {
     this.$store.dispatch("changeAppMode");
   }
 }

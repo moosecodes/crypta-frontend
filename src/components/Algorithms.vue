@@ -4,13 +4,16 @@
     <div class="d-flex flex-wrap justify-content-start">
       <div v-for="(mode, index) in modes" :key="index">
         <b-button
-          v-if="mode.includes(cipher)"
+          v-if="mode.algorithm[0].includes(cipher)"
           class="m-1"
+          :class="{
+            'requires-passphrase': !mode.passphrase_required,
+          }"
           :variant="variant(activeButton, index, mode, cipher)"
           :disabled="disabled(mode, cipher)"
           @click="setAlgorithm(mode, index)"
         >
-          <b>{{ mode.toUpperCase() }}</b>
+          <b>{{ mode.algorithm[0].toUpperCase() }}</b>
         </b-button>
       </div>
     </div>
@@ -24,7 +27,7 @@ import { Watch, Component, Vue } from "vue-property-decorator";
 export default class Algorithms extends Vue {
   public activeButton = -1;
 
-  public setAlgorithm(algorithm: string, index: number) {
+  public setAlgorithm(algorithm: string, index: number): void {
     this.activeButton = index;
     this.$store.dispatch("setAlgorithm", algorithm);
   }
@@ -34,7 +37,7 @@ export default class Algorithms extends Vue {
     index: number,
     mode: string,
     cipher: string
-  ) {
+  ): string {
     let variant = "success";
     if (this.disabled(mode, cipher)) {
       return "";
@@ -44,27 +47,33 @@ export default class Algorithms extends Vue {
     return "outline-secondary";
   }
 
-  public disabled(mode: string, cipher: string) {
-    return !mode.split("-")[0].includes(cipher);
+  public disabled(mode: string, cipher: string): boolean {
+    return !mode.algorithm[0].split("-")[0].includes(cipher);
   }
 
-  public get cipher() {
+  public get cipher(): string {
     return this.$store.state.cipher;
   }
 
-  public get modes() {
+  public get modes(): string[] {
     return this.$store.state.list;
   }
 
-  public get storeAlgorithmValue() {
+  public get storeAlgorithmValue(): string {
     return this.$store.state.algorithm;
   }
 
   @Watch("storeAlgorithmValue")
-  onAlgorithmReset(value: string) {
+  onAlgorithmReset(value: string): void {
     if (value.length === 0) {
       this.activeButton = -1;
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.requires-passphrase {
+  border: 1px solid red;
+}
+</style>

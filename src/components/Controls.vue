@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex justify-content-end">
-    <ModeButton />
+    <!-- <ModeButton /> -->
     <ResetButton />
     <SubmitButton />
   </div>
@@ -8,13 +8,13 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import ModeButton from "@/components/ModeButton.vue";
+// import ModeButton from "@/components/ModeButton.vue";
 import ResetButton from "@/components/ResetButton.vue";
 import SubmitButton from "@/components/SubmitButton.vue";
 
 @Component({
   components: {
-    ModeButton,
+    // ModeButton,
     ResetButton,
     SubmitButton,
   },

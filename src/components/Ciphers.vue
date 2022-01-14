@@ -20,14 +20,17 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Ciphers extends Vue {
-  public get ciphers() {
+  public get ciphers(): string[] {
     let ciphers: string[] = [];
 
     if (this.$store.state.list) {
       let algos: string[] = [];
       algos = this.$store.state.list;
+
+      console.log(algos);
+
       algos.forEach((algo) => {
-        const prefix = algo.split("-")[0];
+        const prefix = algo.algorithm[0].split("-")[0];
         if (!ciphers.includes(prefix)) {
           ciphers.push(prefix);
         }
@@ -37,15 +40,15 @@ export default class Ciphers extends Vue {
     return ciphers;
   }
 
-  public get cipher() {
+  public get cipher(): string {
     return this.$store.state.cipher;
   }
 
-  public setCipher(type: string) {
+  public setCipher(type: string): void {
     this.$store.dispatch("setCipher", type);
   }
 
-  public created() {
+  public created(): void {
     this.$store.dispatch("fetchAlgorithms");
   }
 }

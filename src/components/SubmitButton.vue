@@ -2,12 +2,12 @@
   <b-button
     squared
     size="lg"
-    class="submit-button d-flex justify-content-end"
+    class="d-flex justify-content-end"
     :variant="disabled ? 'outline-secondary' : 'success'"
     :disabled="disabled"
     @click="submit()"
   >
-    <b>{{ $store.state.appMode.toUpperCase() }}</b>
+    <b>ENCRYPT</b>
   </b-button>
 </template>
 
@@ -20,19 +20,23 @@ export default class SubmitButton extends Vue {
   public cipherText = "";
   public encryptedData = "";
 
-  public submit() {
-    if (this.$store.state.cipher && this.input) {
-      if (this.$store.state.appMode === "encrypt") {
+  public submit(): void {
+    if (this.$store.state.appMode === "encrypt") {
+      if (this.$store.state.cipher && this.input) {
         this.encryptString();
-      } else {
-        this.decryptString();
       }
     }
+    // else {
+    //   if (this.$store.state.output) {
+    //     this.decryptString();
+    //   }
+    // }
   }
 
   public get disabled(): boolean {
-    const disabled = !this.$store.state.input || !this.$store.state.algorithm;
-    return disabled;
+    return this.$store.state.appMode === "encrypt"
+      ? !this.$store.state.input || !this.$store.state.algorithm
+      : !!this.$store.state.output;
   }
 
   public get cipher(): string {
@@ -53,8 +57,8 @@ export default class SubmitButton extends Vue {
     this.$store.dispatch("sendInput");
   }
 
-  private decryptString(): void {
-    this.$store.dispatch("decryptInput");
-  }
+  // private decryptString(): void {
+  //   this.$store.dispatch("decryptInput");
+  // }
 }
 </script>

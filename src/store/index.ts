@@ -30,6 +30,7 @@ export default new Vuex.Store({
       state.cipher = "";
       state.algorithm = "";
       state.response = "";
+      state.appMode = "encrypt";
     },
     SET_CIPHER_LIST(state, payload) {
       state.list = payload;

@@ -8,7 +8,6 @@
       :maxlength="limit"
       :placeholder="placeholder"
       @keyup="updateStore()"
-      :disabled="$store.state.appMode === 'decrypt'"
     />
     <div class="align-self-end">{{ charLimit }}</div>
   </div>
