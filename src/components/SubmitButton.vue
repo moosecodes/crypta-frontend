@@ -12,16 +12,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class SubmitButton extends Vue {
-  public plainText = "";
-  public cipherText = "";
-  public encryptedData = "";
+  public plainText = '';
+  public cipherText = '';
+  public encryptedData = '';
 
   public submit(): void {
-    if (this.$store.state.appMode === "encrypt") {
+    if (this.$store.state.appMode === 'encrypt') {
       if (this.$store.state.cipher && this.input) {
         this.encryptString();
       }
@@ -34,7 +34,7 @@ export default class SubmitButton extends Vue {
   }
 
   public get disabled(): boolean {
-    return this.$store.state.appMode === "encrypt"
+    return this.$store.state.appMode === 'encrypt'
       ? !this.$store.state.input || !this.$store.state.algorithm
       : !!this.$store.state.output;
   }
@@ -54,7 +54,7 @@ export default class SubmitButton extends Vue {
   }
 
   private encryptString(): void {
-    this.$store.dispatch("sendInput");
+    this.$store.dispatch('sendInput');
   }
 
   // private decryptString(): void {

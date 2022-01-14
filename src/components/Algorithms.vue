@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { Watch, Component, Vue } from "vue-property-decorator";
+import { Watch, Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Algorithms extends Vue {
@@ -29,7 +29,7 @@ export default class Algorithms extends Vue {
 
   public setAlgorithm(algorithm: string, index: number): void {
     this.activeButton = index;
-    this.$store.dispatch("setAlgorithm", algorithm);
+    this.$store.dispatch('setAlgorithm', algorithm);
   }
 
   public variant(
@@ -38,17 +38,17 @@ export default class Algorithms extends Vue {
     mode: string,
     cipher: string
   ): string {
-    let variant = "success";
+    let variant = 'success';
     if (this.disabled(mode, cipher)) {
-      return "";
+      return '';
     } else if (activeButton === index) {
       return variant;
     }
-    return "outline-secondary";
+    return 'outline-secondary';
   }
 
   public disabled(mode: string, cipher: string): boolean {
-    return !mode.algorithm[0].split("-")[0].includes(cipher);
+    return !mode.algorithm[0].split('-')[0].includes(cipher);
   }
 
   public get cipher(): string {
@@ -63,7 +63,7 @@ export default class Algorithms extends Vue {
     return this.$store.state.algorithm;
   }
 
-  @Watch("storeAlgorithmValue")
+  @Watch('storeAlgorithmValue')
   onAlgorithmReset(value: string): void {
     if (value.length === 0) {
       this.activeButton = -1;

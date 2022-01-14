@@ -1,22 +1,20 @@
 <template>
-  <div>
+  <div class="d-flex flex-column flex-wrap">
     <h5>Cipher</h5>
-    <div class="d-flex flex-column">
-      <b-button
-        v-for="(type, index) in ciphers"
-        class="my-1"
-        :key="index"
-        :variant="cipher == type ? 'warning' : 'outline-secondary'"
-        @click="setCipher(type)"
-      >
-        <b>{{ type.toUpperCase() }}</b>
-      </b-button>
-    </div>
+    <b-button
+      v-for="(type, index) in ciphers"
+      class="my-1"
+      :key="index"
+      :variant="cipher == type ? 'warning' : 'outline-secondary'"
+      @click="setCipher(type)"
+    >
+      <b>{{ type.toUpperCase() }}</b>
+    </b-button>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class Ciphers extends Vue {
@@ -30,7 +28,7 @@ export default class Ciphers extends Vue {
       console.log(algos);
 
       algos.forEach((algo) => {
-        const prefix = algo.algorithm[0].split("-")[0];
+        const prefix = algo.algorithm[0].split('-')[0];
         if (!ciphers.includes(prefix)) {
           ciphers.push(prefix);
         }
@@ -45,11 +43,11 @@ export default class Ciphers extends Vue {
   }
 
   public setCipher(type: string): void {
-    this.$store.dispatch("setCipher", type);
+    this.$store.dispatch('setCipher', type);
   }
 
   public created(): void {
-    this.$store.dispatch("fetchAlgorithms");
+    this.$store.dispatch('fetchAlgorithms');
   }
 }
 </script>

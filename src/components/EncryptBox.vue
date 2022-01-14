@@ -14,33 +14,33 @@
 </template>
 
 <script lang="ts">
-import { Watch, Component, Vue } from "vue-property-decorator";
+import { Watch, Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class EncryptBox extends Vue {
   public limit = 700;
-  public plainText = "";
+  public plainText = '';
 
-  public updateStore() {
-    this.$store.commit("SET_INPUT", this.plainText);
+  public updateStore(): void {
+    this.$store.commit('SET_INPUT', this.plainText);
   }
 
-  public get placeholder() {
+  public get placeholder(): string {
     return `${this.limit} character limit`;
   }
 
-  public get charLimit() {
+  public get charLimit(): string {
     return `${this.plainText.length} / ${this.limit}`;
   }
 
-  public get storeInputValue() {
+  public get storeInputValue(): void {
     return this.$store.state.input;
   }
 
-  @Watch("storeInputValue")
-  onInputReset(value: string) {
+  @Watch('storeInputValue')
+  onInputReset(value: string): void {
     if (value.length === 0) {
-      this.plainText = "";
+      this.plainText = '';
     }
   }
 }

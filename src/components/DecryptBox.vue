@@ -13,17 +13,17 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class DecryptBox extends Vue {
   public data!: any; // TODO: fix type
 
-  public get response() {
+  public get response(): string {
     if (this.$store.state.response) {
       return this.$store.state.response;
     }
-    return "";
+    return '';
   }
 }
 </script>

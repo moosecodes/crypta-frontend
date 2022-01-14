@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import Algorithms from "@/components/Algorithms.vue";
-import Ciphers from "@/components/Ciphers.vue";
+import { Component, Vue } from 'vue-property-decorator';
+import Algorithms from '@/components/Algorithms.vue';
+import Ciphers from '@/components/Ciphers.vue';
 
 @Component({
   components: {

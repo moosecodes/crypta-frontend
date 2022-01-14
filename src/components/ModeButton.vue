@@ -11,12 +11,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class ModeButton extends Vue {
   public changeAppMode(): void {
-    this.$store.dispatch("changeAppMode");
+    this.$store.dispatch('changeAppMode');
   }
 }
 </script>

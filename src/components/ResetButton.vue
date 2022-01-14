@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class ResetButton extends Vue {
@@ -22,7 +22,7 @@ export default class ResetButton extends Vue {
   }
 
   public reset(): void {
-    this.$store.dispatch("resetStore", true);
+    this.$store.dispatch('resetStore', true);
   }
 }
 </script>

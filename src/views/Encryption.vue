@@ -8,12 +8,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator';
 
-import EncryptBox from "@/components/EncryptBox.vue";
-import DecryptBox from "@/components/DecryptBox.vue";
-import Controls from "@/components/Controls.vue";
-import EncryptionSchemeSelector from "@/components/EncryptionSchemeSelector.vue";
+import EncryptBox from '@/components/EncryptBox.vue';
+import DecryptBox from '@/components/DecryptBox.vue';
+import Controls from '@/components/Controls.vue';
+import EncryptionSchemeSelector from '@/components/EncryptionSchemeSelector.vue';
 
 @Component({
   components: {

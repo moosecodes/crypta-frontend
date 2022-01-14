@@ -7,10 +7,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator';
 // import ModeButton from "@/components/ModeButton.vue";
-import ResetButton from "@/components/ResetButton.vue";
-import SubmitButton from "@/components/SubmitButton.vue";
+import ResetButton from '@/components/ResetButton.vue';
+import SubmitButton from '@/components/SubmitButton.vue';
 
 @Component({
   components: {
