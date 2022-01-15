@@ -4,16 +4,16 @@
     <div class="d-flex flex-wrap justify-content-start">
       <div v-for="(mode, index) in modes" :key="index">
         <b-button
-          v-if="mode.algorithm[0].includes(cipher)"
+          v-if="mode.method[0].includes(cipher)"
           class="m-1"
           :class="{
-            'requires-passphrase': !mode.passphrase_required,
+            'requires-passphrase': !mode.passphrase,
           }"
           :variant="variant(activeButton, index, mode, cipher)"
           :disabled="disabled(mode, cipher)"
           @click="setAlgorithm(mode, index)"
         >
-          <b>{{ mode.algorithm[0].toUpperCase() }}</b>
+          <b>{{ mode.method[0].toUpperCase() }}</b>
         </b-button>
       </div>
     </div>
@@ -38,7 +38,7 @@ export default class Algorithms extends Vue {
     mode: string,
     cipher: string
   ): string {
-    let variant = 'success';
+    let variant = 'warning';
     if (this.disabled(mode, cipher)) {
       return '';
     } else if (activeButton === index) {
@@ -48,7 +48,7 @@ export default class Algorithms extends Vue {
   }
 
   public disabled(mode: string, cipher: string): boolean {
-    return !mode.algorithm[0].split('-')[0].includes(cipher);
+    return !mode.method[0].split('-')[0].includes(cipher);
   }
 
   public get cipher(): string {

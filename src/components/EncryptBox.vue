@@ -4,7 +4,7 @@
     <b-form-textarea
       id="plainText"
       v-model="plainText"
-      rows="15"
+      rows="10"
       :maxlength="limit"
       :placeholder="placeholder"
       @keyup="updateStore()"

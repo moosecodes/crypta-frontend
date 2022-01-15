@@ -5,7 +5,7 @@
       v-for="(type, index) in ciphers"
       class="my-1"
       :key="index"
-      :variant="cipher == type ? 'warning' : 'outline-secondary'"
+      :variant="cipher == type ? 'success' : 'outline-secondary'"
       @click="setCipher(type)"
     >
       <b>{{ type.toUpperCase() }}</b>
@@ -28,7 +28,7 @@ export default class Ciphers extends Vue {
       console.log(algos);
 
       algos.forEach((algo) => {
-        const prefix = algo.algorithm[0].split('-')[0];
+        const prefix = algo.method[0].split('-')[0];
         if (!ciphers.includes(prefix)) {
           ciphers.push(prefix);
         }

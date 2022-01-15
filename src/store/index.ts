@@ -75,7 +75,7 @@ export default new Vuex.Store({
     sendInput({ state, dispatch }) {
       axios
         .post(`http://${domain}/api/encryption/encrypt`, {
-          cipher: state.algorithm,
+          cipher: state.algorithm.algorithm[0],
           text: state.input,
         })
         .then((response) => {

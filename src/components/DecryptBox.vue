@@ -5,7 +5,7 @@
       class="border"
       v-model="response"
       placeholder="Encrypted data will display here"
-      rows="15"
+      rows="10"
       disabled
     />
     <div class="align-self-end">{{ response.length }} characters</div>

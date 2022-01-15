@@ -22,6 +22,7 @@ export default class SubmitButton extends Vue {
 
   public submit(): void {
     if (this.$store.state.appMode === 'encrypt') {
+      // TODO: fix this statement for algorithm instead of just cipher
       if (this.$store.state.cipher && this.input) {
         this.encryptString();
       }
