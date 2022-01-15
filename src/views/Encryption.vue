@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <section>
     <Controls />
     <EncryptBox />
     <DecryptBox />
     <EncryptionSchemeSelector />
-  </div>
+  </section>
 </template>
 
 <script lang="ts">

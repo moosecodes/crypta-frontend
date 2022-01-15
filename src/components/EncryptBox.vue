@@ -5,11 +5,15 @@
       id="plainText"
       v-model="plainText"
       rows="10"
+      no-resize
       :maxlength="limit"
       :placeholder="placeholder"
       @keyup="updateStore()"
     />
     <div class="align-self-end">{{ charLimit }}</div>
+    <!-- <b-input-group prepend="Enter Passphrase" class="mt-3">
+      <b-form-input :disabled="true"></b-form-input>
+    </b-input-group> -->
   </div>
 </template>
 

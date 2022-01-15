@@ -4,13 +4,12 @@
     <div class="d-flex flex-wrap justify-content-start">
       <div v-for="(mode, index) in modes" :key="index">
         <b-button
-          v-if="mode.method[0].includes(cipher)"
+          v-if="mode.method[0].includes(cipher) && !disabled(mode, cipher)"
           class="m-1"
           :class="{
-            'requires-passphrase': !mode.passphrase,
+            passphrase: !mode.passphrase,
           }"
           :variant="variant(activeButton, index, mode, cipher)"
-          :disabled="disabled(mode, cipher)"
           @click="setAlgorithm(mode, index)"
         >
           <b>{{ mode.method[0].toUpperCase() }}</b>
@@ -73,7 +72,7 @@ export default class Algorithms extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.requires-passphrase {
+.passphrase {
   border: 1px solid red;
 }
 </style>

@@ -25,8 +25,6 @@ export default class Ciphers extends Vue {
       let algos: string[] = [];
       algos = this.$store.state.list;
 
-      console.log(algos);
-
       algos.forEach((algo) => {
         const prefix = algo.method[0].split('-')[0];
         if (!ciphers.includes(prefix)) {
