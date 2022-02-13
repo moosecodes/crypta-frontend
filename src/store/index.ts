@@ -12,7 +12,7 @@ export default new Vuex.Store({
     input: '',
     output: '',
     cipher: '',
-    algorithm: '',
+    algorithm: { method: '', passphrase: false },
     response: '',
     appMode: 'encrypt',
   },
@@ -28,7 +28,7 @@ export default new Vuex.Store({
       state.input = '';
       state.output = '';
       state.cipher = '';
-      state.algorithm = '';
+      state.algorithm = { method: '', passphrase: false };
       state.response = '';
       state.appMode = 'encrypt';
     },
@@ -39,7 +39,7 @@ export default new Vuex.Store({
       state.input = payload;
     },
     SET_CIPHER(state, payload) {
-      state.algorithm = '';
+      state.algorithm = { method: '', passphrase: false };
       state.cipher = payload;
     },
     SET_ALGORITHM(state, payload) {
@@ -75,6 +75,7 @@ export default new Vuex.Store({
         });
     },
     sendInput({ state, dispatch }) {
+      console.log(state.algorithm);
       axios
         .post(`http://${domain}/api/encryption/encrypt`, {
           cipher: state.algorithm.method[0],

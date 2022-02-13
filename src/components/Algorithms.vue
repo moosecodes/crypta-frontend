@@ -34,7 +34,7 @@ export default class Algorithms extends Vue {
   public variant(
     activeButton: number,
     index: number,
-    mode: string,
+    mode: { method: string[]; passphrase: boolean },
     cipher: string
   ): string {
     let variant = 'warning';
@@ -46,7 +46,10 @@ export default class Algorithms extends Vue {
     return 'outline-secondary';
   }
 
-  public disabled(mode: string, cipher: string): boolean {
+  public disabled(
+    mode: { method: string[]; passphrase: boolean },
+    cipher: string
+  ): boolean {
     return !mode.method[0].split('-')[0].includes(cipher);
   }
 
@@ -58,11 +61,11 @@ export default class Algorithms extends Vue {
     return this.$store.state.list;
   }
 
-  public get storeAlgorithmValue(): string {
+  public get algorithmValueInStore(): string {
     return this.$store.state.algorithm;
   }
 
-  @Watch('storeAlgorithmValue')
+  @Watch('algorithmValueInStore')
   onAlgorithmReset(value: string): void {
     if (value.length === 0) {
       this.activeButton = -1;

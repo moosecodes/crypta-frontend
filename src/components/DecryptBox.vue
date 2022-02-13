@@ -17,8 +17,6 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class DecryptBox extends Vue {
-  public data!: any; // TODO: fix type
-
   public get response(): string {
     if (this.$store.state.response) {
       return this.$store.state.response;

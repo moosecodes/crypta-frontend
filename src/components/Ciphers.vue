@@ -22,7 +22,7 @@ export default class Ciphers extends Vue {
     let ciphers: string[] = [];
 
     if (this.$store.state.list) {
-      let algos: string[] = [];
+      let algos: { method: string[]; passphrase: boolean }[] = [];
       algos = this.$store.state.list;
 
       algos.forEach((algo) => {
@@ -45,7 +45,9 @@ export default class Ciphers extends Vue {
   }
 
   public created(): void {
-    this.$store.dispatch('fetchAlgorithms');
+    this.$store.dispatch('fetchAlgorithms').then(() => {
+      this.$store.dispatch('setCipher', 'aes');
+    });
   }
 }
 </script>
